@@ -1,0 +1,35 @@
+1. Analyse de l'environnement :
+
+Le binaire /home/user/level0/level0 possède le bit SetUID pour l'utilisateur level1.
+
+Les protections système sont minimales : l'ASLR est désactivé (kernel.randomize_va_space = 0) et il n'y a pas de Stack Canary.
+
+2. Analyse de la logique binaire (Reverse Engineering) :
+
+L'outil ltrace n'est pas utilisable car le binaire est "stripped" (pas de table de symboles dynamiques).
+
+Utilisation de gdb pour examiner la fonction main.
+
+Séquence d'instructions clé identifiée :
+
+call atoi : Convertit l'argument argv[1] en entier.
+
+cmp $0x1a7, %eax : Compare le résultat à la valeur hexadécimale 0x1a7.
+
+jne : Saute vers la fin du programme (échec) si la comparaison est fausse.
+
+Conversion mathématique :
+
+0x1a7 (hex) = (1×16 
+2
+ )+(10×16 
+1
+ )+7=256+160+7=423 (dec).
+
+3. Schéma de l'exploitation :
+
+En fournissant 423 en argument, le programme valide la condition.
+
+Le programme appelle ensuite setresuid et setresgid avec les IDs de level1 pour élever les privilèges.
+
+Enfin, execv lance /bin/sh, nous donnant un shell avec les droits de l'utilisateur suivant.

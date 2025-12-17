@@ -1,0 +1,8 @@
+1. Connexion en SSH : ssh level0@127.0.0.1 -p 4242 (password: level0).
+2. Analyse du binaire 'level0' avec GDB : 'gdb -q ./level0'.
+3. Désassemblage de la fonction main : 'disassemble main'.
+4. Identification d'une comparaison : 'cmp $0x1a7, %eax'.
+5. Conversion de la valeur hexadécimale 0x1a7 en décimal : 423.
+6. Exécution du binaire avec l'argument trouvé : './level0 423'.
+7. Le binaire étant SetUID level1, il ouvre un shell avec les droits level1.
+8. Récupération du mot de passe : 'cat /home/user/level1/.pass'.

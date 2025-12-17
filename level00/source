@@ -1,0 +1,27 @@
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <stdio.h>
+
+int main(int argc, char **argv)
+{
+    // L'instruction 'cmp $0x1a7,%eax' compare l'argument à 423
+    if (atoi(argv[1]) == 423) {
+        // Si vrai, le programme prépare un shell
+        char *path = strdup("/bin/sh");
+        gid_t gid = getegid();
+        uid_t uid = geteuid();
+
+        // Appels système pour prendre les privilèges de level1
+        setresgid(gid, gid, gid);
+        setresuid(uid, uid, uid);
+
+        char *args[] = {"/bin/sh", NULL};
+        execv("/bin/sh", args);
+    } else {
+        // Si faux, affiche "No !"
+        fwrite("No !\n", 1, 5, stderr);
+    }
+    return 0;
+}

@@ -1,0 +1,8 @@
+qemu-system-x86_64 \
+  -m 2048 \
+  -cdrom RainFall.iso \
+  -cpu max \
+  -net nic \
+  -net user,hostfwd=tcp::4242-:4242
+
+ssh -p 4242 level0@127.0.0.1
